@@ -78,42 +78,69 @@
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.1.0</version>
             </plugin>
+
             <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.0.2</version>
             </plugin>
+
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
             </plugin>
+
+            <!-- 单元测试插件：移除 skipTests，让测试正常执行 -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.1</version>
+                <!-- 删除 skipTests 配置，让测试正常执行
                 <configuration>
-                    <!--打包构建时跳过单元测试-->
                     <skipTests>true</skipTests>
                 </configuration>
+                -->
             </plugin>
-            <!--配置生成源码包-->
+
+            <!-- 配置生成源码包（中央仓库必需）-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.2.1</version> <!-- 升级到较新版本 -->
                 <executions>
                     <execution>
                         <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal> <!-- 改为 jar-no-fork 更稳定 -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- 新增：生成 JavaDoc 包（中央仓库必需）-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <failOnError>false</failOnError>
+                    <doclint>none</doclint> <!-- 避免文档检查过严导致失败 -->
+                </configuration>
             </plugin>
+
             <plugin>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>3.0.0</version>
             </plugin>
-            <!-- https://mvnrepository.com/artifact/com.mycila/license-maven-plugin -->
+
+            <!-- license 插件：保持不变 -->
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
@@ -130,9 +157,7 @@
                 </executions>
                 <configuration>
                     <quiet>true</quiet>
-                    <!--HEADER文件-->
                     <header>${project.basedir}/templete/license.temp</header>
-                    <!--排除文件-->
                     <excludes>
                         <exclude>**/*.properties</exclude>
                         <exclude>**/*.sh</exclude>
@@ -144,13 +169,13 @@
                         <exclude>**/*.txt</exclude>
                         <exclude>**/*.vm</exclude>
                     </excludes>
-                    <!--严格检查-->
                     <strictCheck>true</strictCheck>
                     <mapping>
                         <java>SLASHSTAR_STYLE</java>
                     </mapping>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
@@ -163,6 +188,43 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!-- ========== 新增：中央仓库发布必需插件 ========== -->
+
+            <!-- GPG 签名插件（中央仓库强制要求）-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <!-- 避免 GPG 弹窗问题 -->
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- 中央仓库发布插件（新版推荐）-->
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.8.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                </configuration>
             </plugin>
         </plugins>
     </build>
