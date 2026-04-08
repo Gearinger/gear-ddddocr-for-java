@@ -16,8 +16,8 @@ jobs:
           distribution: 'zulu'
           java-version: '11'      # 一般只需要修改这里，8 17 21 等等
           server-id: central
-          server-username: ${{ secrets.SERVER_USERNAME }}
-          server-password: ${{ secrets.SERVER_PASSWORD }}
+          server-username: SERVER_USERNAME
+          server-password: SERVER_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET }}
           gpg-passphrase: GPG_PASSPHRASE
 
