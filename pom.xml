@@ -2,13 +2,41 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- 基本信息 -->
+    <name>ddddocr for java</name>
+    <description>ddddocr for java</description>
+    <url>https://github.com/Gearinger/gear-ddddocr-for-java</url>
+
+    <!-- 许可证信息 -->
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <!-- 开发者信息 -->
+    <developers>
+        <developer>
+            <name>GuoYingdong</name>
+            <email>gearingxz@gmail.com</email>
+            <organization>Gearinger</organization>
+            <organizationUrl>https://github.com/gearinger</organizationUrl>
+        </developer>
+    </developers>
+
+    <!-- SCM 信息 -->
+    <scm>
+        <url>https://github.com/Gearinger/gear-ddddocr-for-java</url>
+    </scm>
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>top.gcszhn</groupId>
     <artifactId>d4ocr</artifactId>
     <version>1.0.1</version>
     <packaging>jar</packaging>
-    <name>ddddocr for java</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
