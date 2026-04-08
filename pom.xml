@@ -33,7 +33,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>top.gcszhn</groupId>
+    <groupId>io.github.gearinger</groupId>
     <artifactId>d4ocr</artifactId>
     <version>1.0.1</version>
     <packaging>jar</packaging>
